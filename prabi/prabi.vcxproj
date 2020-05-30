@@ -138,11 +138,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="errors.cpp" />
     <ClCompile Include="network.cpp" />
     <ClCompile Include="os.cpp" />
+    <ClCompile Include="prabi.cpp" />
     <ClCompile Include="source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="errors.h" />
     <ClInclude Include="network.h" />
     <ClInclude Include="os.h" />
     <ClInclude Include="pack.h" />

@@ -1,4 +1,7 @@
 #include "network.h"
+#include "errors.h"
+
+#include <exception>
 
 void InitNetworkEnv()
 {
@@ -10,33 +13,56 @@ void InitNetworkEnv()
 #endif // PLATFORM_WINDOWS
 }
 
-void PrabiStartListen(const char* host, int port, int max_con = 10, int af = AF_INET)
+const auto AF = AF_INET;
+
+
+SOCKET PrabiStartServer(const char* host, int port, int max_con)
 {
 	SOCKADDR_IN serveraddr{ 0 };
-	serveraddr.sin_family = af;
+	serveraddr.sin_family = AF;
 	serveraddr.sin_port = htons(port);
-	inet_pton(af, host, &serveraddr.sin_addr);
+	inet_pton(AF, host, &serveraddr.sin_addr);
 
-	SOCKET server = socket(af, SOCK_STREAM, IPPROTO_TCP);
-	if (!server)abort();
+	SOCKET server = socket(AF, SOCK_STREAM, IPPROTO_TCP);
+	if (!server)
+		throw std::exception(MAKE_ERRNO("Failed on create socket!"));
 
-	if (!bind(server, (SOCKADDR*)&serveraddr, sizeof(serveraddr)))
-		abort();
+	if (bind(server, (SOCKADDR*)&serveraddr, sizeof(serveraddr)))
+		throw std::exception(MAKE_ERRNO("Failed on bind Prabi server address!"));
 
-	if (!listen(server, max_con))
-		abort();
+	if (listen(server, max_con))
+		throw std::exception(MAKE_ERRNO("Failed on listen Prabi server address!"));
 
-	while (true)
+	return server;
+}
+
+SOCKET prabiStartClient(const char* target, int port)
+{
+	SOCKADDR_IN serveraddr{ 0 };
+	serveraddr.sin_family = AF;
+	serveraddr.sin_port = htons(port);
+	inet_pton(AF, target, &serveraddr.sin_addr);
+
+	SOCKET client = socket(AF, SOCK_STREAM, IPPROTO_TCP);
+	if (!connect(client, (sockaddr*)&serveraddr, sizeof(sockaddr)))
+		throw std::exception(MAKE_ERRNO("Failed on connect to Prabi server address!"));
+
+	return client;
+}
+
+void ReciveData(SOCKET s, void* buffer, size_t size)
+{
+	size_t dataRecvd = 0;
+	auto buf = reinterpret_cast<char*>(buffer);
+	while (dataRecvd < size)
 	{
-		SOCKET client = accept(server, nullptr, nullptr);
-		std::thread clientThread = std::thread([=]()
-			{
-				bool close = false;
-				uint8_t buf[256]{ 0 };
-				while (!close)
-				{
-					int len = recv(client, (char*)buf, 256, 0);
-				}
-			})
+		size_t cc = recv(s, buf, size - dataRecvd, 0);
+		switch (cc)
+		{
+			case -1:throw MAKE_ERRNO("Error when recive data from remote.");
+			case 0:throw std::exception("Error when recive data from remote.- End of stream!");
+		}
+		dataRecvd += cc;
 	}
+	return;
 }

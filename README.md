@@ -1,2 +1,2 @@
 # RabiJump
-A proxy tool for NAT passthrough
+A virtual network tool for TCP packet forwarding.

@@ -17,5 +17,10 @@ struct DataPack
 	uint8_t* packetData;
 };
 
+/// <summary>
+/// Send packet to target.
+/// </summary>
+void SendPacket(const DataPack& packet, SOCKET target);
+
 #endif // _PACK_HEADER_
 

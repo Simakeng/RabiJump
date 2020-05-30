@@ -9,10 +9,8 @@ struct Session
 };
 
 void InitNetworkEnv();
+SOCKET PrabiStartServer(const char* host, int port, int max_con = 10);
+SOCKET prabiStartClient(const char* target, int port);
 
-void PrabiStartListen(const char* host, int port);
-void PrabiStartConnecting(const char* host, int port);
-
-void StartListen(int port);
-
+void ReciveData(SOCKET s, void* buffer, size_t size);
 #endif // _NETWORK_HEADER_
