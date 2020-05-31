@@ -15,7 +15,6 @@ void InitNetworkEnv()
 
 const auto AF = AF_INET;
 
-
 SOCKET PrabiStartServer(const char* host, int port, int max_con)
 {
 	SOCKADDR_IN serveraddr{ 0 };
@@ -44,10 +43,19 @@ SOCKET prabiStartClient(const char* target, int port)
 	inet_pton(AF, target, &serveraddr.sin_addr);
 
 	SOCKET client = socket(AF, SOCK_STREAM, IPPROTO_TCP);
-	if (!connect(client, (sockaddr*)&serveraddr, sizeof(sockaddr)))
+	if (connect(client, (sockaddr*)&serveraddr, sizeof(sockaddr)))
 		throw std::exception(MAKE_ERRNO("Failed on connect to Prabi server address!"));
 
 	return client;
+}
+void SendData(SOCKET s,const void* buffer, size_t size)
+{
+	const auto buf = reinterpret_cast<const char*>(buffer);
+	auto bs = send(s, buf, size, 0);
+	if (bs == -1)
+		throw MAKE_ERRNO("Error when send data to remote.");
+	if(bs!= size)
+		throw std::exception("Error when send data to remote. - time out");
 }
 
 void ReciveData(SOCKET s, void* buffer, size_t size)
@@ -59,8 +67,8 @@ void ReciveData(SOCKET s, void* buffer, size_t size)
 		size_t cc = recv(s, buf, size - dataRecvd, 0);
 		switch (cc)
 		{
-			case -1:throw MAKE_ERRNO("Error when recive data from remote.");
-			case 0:throw std::exception("Error when recive data from remote.- End of stream!");
+		case -1:throw MAKE_ERRNO("Error when recive data from remote.");
+		case 0:throw std::exception("Error when recive data from remote.- End of stream!");
 		}
 		dataRecvd += cc;
 	}

@@ -19,7 +19,7 @@ void PrabiStartServerDeamon(SOCKET server)
 					char strAddr[INET_ADDRSTRLEN];
 					inet_ntop(AF_INET, &(clientAddr.sin_addr), strAddr, INET_ADDRSTRLEN);
 
-					FirstConnect(sclient);
+					PrabiServerConnectionEstablished(sclient);
 
 					printf("Rabi Client Connected! %s\n", strAddr);
 
@@ -53,7 +53,27 @@ void PrabiStartServerDeamon(SOCKET server)
 	}
 }
 
-int FirstConnect(SOCKET client)
+void PrabiStartClientDeamon(SOCKET server)
+{
+	PrabiClientConnectionEstablished(server);
+	while (!stop)
+	{
+
+	}
+}
+
+int PrabiClientConnectionEstablished(SOCKET server) 
+{
+	SendData(server, "RABI", 4);
+	char buf[4];
+	ReciveData(server, buf, 4);
+	if (memcmp(buf, "JUMP", 4) != 0) 
+		throw std::exception("Server is not a RabiJump Server.");
+
+	return 0;
+}
+
+int PrabiServerConnectionEstablished(SOCKET client)
 {
 	char buf[4];
 	ReciveData(client, buf, 4);
@@ -66,7 +86,8 @@ int FirstConnect(SOCKET client)
 		}
 		throw std::exception("Error info header");
 	}
-	
+	SendData(client, "JUMP", 4);
+
 	return 0;
 }
 

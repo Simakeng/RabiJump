@@ -24,13 +24,24 @@ int main(int argc, char* argv[])
     {
         if (strcmp(argv[1], "-s") == 0)
         {
+            printf("starting server...\n");
             SOCKET server = PrabiStartServer(ipaddr, port);
             PrabiStartServerDeamon(server);
+        }
+        else if (strcmp(argv[1], "-p") == 0) 
+        {
+            printf("connecting...\n");
+            SOCKET client = prabiStartClient(ipaddr, port);
+            PrabiStartClientDeamon(client);
         }
     }
     catch (const std::exception& e)
     {
-        printf("%s", e.what());
+        printf("Error occured: %s", e.what());
+    }
+    catch (...) 
+    {
+        printf("Error occured: Unknown Error.");
     }
 
 }

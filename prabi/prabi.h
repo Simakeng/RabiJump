@@ -8,8 +8,16 @@
 void PrabiStartServerDeamon(SOCKET server);
 void PrabiStartClientDeamon(SOCKET client);
 
+//############# Client Side Functions ##################
+
+// server accepted a new connection
+int PrabiClientConnectionEstablished(SOCKET server);
+
+
 //############# Server Side Functions ##################
-int FirstConnect(SOCKET client);
+
+// server accepted a new connection
+int PrabiServerConnectionEstablished(SOCKET client);
 void ThisIsNotAHTTPServer(SOCKET client);
 
 #endif // _PRABI_HEADER_
