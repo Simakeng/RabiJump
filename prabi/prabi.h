@@ -5,18 +5,25 @@
 #include "network.h"
 #include "os.h"
 
-void PrabiStartServerDeamon(SOCKET server);
-void PrabiStartClientDeamon(SOCKET client);
+
+
+
 
 //############# Client Side Functions ##################
 
-// server accepted a new connection
+// Become a client deamon process.
+void PrabiStartClientDeamon(SOCKET client);
+
+// Server accepted a new connection
 int PrabiClientConnectionEstablished(SOCKET server);
 
 
 //############# Server Side Functions ##################
 
-// server accepted a new connection
+// Become a server deamon process.
+void PrabiStartServerDeamon(SOCKET server);
+
+// Server accepted a new connection.
 int PrabiServerConnectionEstablished(SOCKET client);
 void ThisIsNotAHTTPServer(SOCKET client);
 

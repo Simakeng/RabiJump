@@ -9,8 +9,8 @@ struct Session
 };
 
 void InitNetworkEnv();
-SOCKET PrabiStartServer(const char* host, int port, int max_con = 10);
-SOCKET prabiStartClient(const char* target, int port);
+SOCKET StartServer(const char* host, int port, int max_con = 10);
+SOCKET StartClient(const char* target, int port);
 
 void SendData(SOCKET s, const void* buffer, size_t size);
 void ReciveData(SOCKET s, void* buffer, size_t size);

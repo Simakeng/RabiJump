@@ -15,7 +15,7 @@ void InitNetworkEnv()
 
 const auto AF = AF_INET;
 
-SOCKET PrabiStartServer(const char* host, int port, int max_con)
+SOCKET StartServer(const char* host, int port, int max_con)
 {
 	SOCKADDR_IN serveraddr{ 0 };
 	serveraddr.sin_family = AF;
@@ -35,7 +35,7 @@ SOCKET PrabiStartServer(const char* host, int port, int max_con)
 	return server;
 }
 
-SOCKET prabiStartClient(const char* target, int port)
+SOCKET StartClient(const char* target, int port)
 {
 	SOCKADDR_IN serveraddr{ 0 };
 	serveraddr.sin_family = AF;

@@ -138,18 +138,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="config.cpp" />
+    <ClCompile Include="crc32.cpp" />
     <ClCompile Include="errors.cpp" />
     <ClCompile Include="network.cpp" />
     <ClCompile Include="os.cpp" />
     <ClCompile Include="prabi.cpp" />
     <ClCompile Include="source.cpp" />
+    <ClCompile Include="target.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="config.h" />
+    <ClInclude Include="crc32.h" />
     <ClInclude Include="errors.h" />
     <ClInclude Include="network.h" />
     <ClInclude Include="os.h" />
     <ClInclude Include="pack.h" />
     <ClInclude Include="prabi.h" />
+    <ClInclude Include="port.h" />
+    <ClInclude Include="queue.h" />
+    <ClInclude Include="target.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
