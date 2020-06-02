@@ -144,6 +144,7 @@
     <ClCompile Include="network.cpp" />
     <ClCompile Include="os.cpp" />
     <ClCompile Include="prabi.cpp" />
+    <ClCompile Include="server.cpp" />
     <ClCompile Include="source.cpp" />
     <ClCompile Include="target.cpp" />
   </ItemGroup>
@@ -157,6 +158,7 @@
     <ClInclude Include="prabi.h" />
     <ClInclude Include="port.h" />
     <ClInclude Include="queue.h" />
+    <ClInclude Include="server.h" />
     <ClInclude Include="target.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

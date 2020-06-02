@@ -2,8 +2,6 @@
 
 #include <thread>
 
-bool stop = false;
-
 void PrabiStartServerDeamon(SOCKET server)
 {
 	using namespace std;

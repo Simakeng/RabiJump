@@ -1,5 +1,7 @@
 #pragma once
 #include "network.h"
+#include "queue.h"
+#include "pack.h"
 
 #include <cstdint>
 #include <unordered_map>
@@ -18,14 +20,15 @@ private:
 	{
 		SOCKET remote;
 		uint32_t sid;
-		
+		atomic_queue<RawDataPack> packetQueue;
 		bool operator==(const VTSession& r)const { return this->remote == r.remote; }
 	};
 
 	std::unordered_map<uint32_t, VTSession> sessions;
 public:
 	uint32_t CreateSession();
-	void Forward(uint32_t sid);
+	// forward a data packet to target;
+	void Forward(uint32_t sid, const RawDataPack& packet);
 
 	friend struct std::hash<VirtualTarget::VTSession>;
 };

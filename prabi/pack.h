@@ -3,7 +3,7 @@
 #define _PACK_HEADER_
 #include "os.h"
 
-struct RawDataPack
+struct RabiDataPack
 {
 	uint32_t header;
 	uint32_t packetID;
@@ -14,8 +14,15 @@ struct RawDataPack
 };
 
 
+struct RawDataPack 
+{
+	uint8_t* data;
+	size_t len;
+};
+
+
 // Send packet to target.
-void SendPacket(const RawDataPack& packet, SOCKET target);
+void SendPacket(const RabiDataPack& packet, SOCKET target);
 
 
 #endif // _PACK_HEADER_

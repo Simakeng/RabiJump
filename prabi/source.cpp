@@ -1,4 +1,5 @@
 #include "prabi.h"
+
 /**
  * Current goal:
  * 1. Enstablish connection from machine A and B
@@ -7,9 +8,15 @@
  */
 
 /**
-prabi -s 0.0.0.0:1045 # listen at 0.0.0.0:1045 
-prabi -p 0.0.0.0:1045 # connect to server
+
+# listen at 0.0.0.0:1045 
+prabi -s 0.0.0.0:1045 
+
+# connect to server and forword all connection from server to www.baidu.com:80
+prabi -p 0.0.0.0:1045 -f www.baidu.com:80 
+
 */
+
 int main(int argc, char* argv[])
 {
     InitNetworkEnv();
@@ -26,7 +33,8 @@ int main(int argc, char* argv[])
         {
             printf("starting server...\n");
             SOCKET server = StartServer(ipaddr, port);
-            PrabiStartServerDeamon(server);
+            SOCKET target = ServerWaitingTarget(server);
+            ServerDeamon(server,target);
         }
         else if (strcmp(argv[1], "-p") == 0) 
         {
