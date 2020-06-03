@@ -30,8 +30,3 @@ uint32_t VirtualTarget::CreateSession()
 	sessions[sid] = VTSession{ sid,client };
 	return sid;
 }
-
-VirtualTarget::VTSession::VTSession()
-	:remote(NULL)
-{
-}

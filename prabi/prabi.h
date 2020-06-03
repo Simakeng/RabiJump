@@ -6,6 +6,7 @@
 #include "port.h"
 #include "pack.h"
 #include "server.h"
+#include "client.h"
 #include "target.h"
 #include "network.h"
 

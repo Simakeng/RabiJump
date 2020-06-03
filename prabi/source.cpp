@@ -13,7 +13,7 @@
 prabi -s 0.0.0.0:1045 
 
 # connect to server and forword all connection from server to www.baidu.com:80
-prabi -p 0.0.0.0:1045 -f www.baidu.com:80 
+prabi -p 0.0.0.0:1045 www.baidu.com:80 
 
 */
 
@@ -40,7 +40,15 @@ int main(int argc, char* argv[])
         {
             printf("connecting...\n");
             SOCKET client = StartClient(ipaddr, port);
-            PrabiStartClientDeamon(client);
+
+            splt = strstr(argv[3], ":");
+            port = atoi(splt + 1);
+            addrl = splt - argv[3];
+            ipaddr = new char[addrl + 1]{ 0 };
+            memcpy(ipaddr, argv[2], addrl);
+
+            ClientDeamon(client,VirtualTarget(ipaddr, port));
+            //PrabiStartClientDeamon(client);
         }
     }
     catch (const std::exception& e)
