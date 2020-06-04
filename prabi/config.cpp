@@ -1,5 +1,3 @@
 #include "config.h"
 
-Config::Config()
-{
-}
+bool stop = true;

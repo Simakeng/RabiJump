@@ -27,6 +27,6 @@ uint32_t VirtualTarget::CreateSession()
 	if (client == NULL)
 		return 0;
 
-	sessions[sid] = VTSession{ sid,client };
+	sessions[sid] = Session{ sid,client };
 	return sid;
 }

@@ -1,4 +1,9 @@
+#include <thread>
+#include <unordered_map>
+
 #include "server.h"
+#include "config.h"
+#include "session.h"
 
 void ThisIsNotAHTTPServer(SOCKET client)
 {
@@ -22,7 +27,6 @@ void ThisIsNotAHTTPServer(SOCKET client)
 	}
 	for (auto resp : resps)
 		send(client, resp, strlen(resp), 0);
-
 }
 
 int TargetConnectionAccepted(SOCKET client)
@@ -53,8 +57,8 @@ SOCKET ServerWaitingTarget(SOCKET s)
 	while (target == NULL)
 	{
 		target = accept(s, &addr, &addrLen);
-		
-		if (TargetConnectionAccepted(target))
+
+		if (TargetConnectionAccepted(target) == 0)
 			break;
 
 		closesocket(target);
@@ -63,7 +67,30 @@ SOCKET ServerWaitingTarget(SOCKET s)
 	return target;
 }
 
-void ServerDeamon(SOCKET server, SOCKET target)
+Session ServerAllocateSession(SOCKET target)
 {
 
+}
+
+void ServerDeamon(SOCKET server, SOCKET target)
+{
+	std::unordered_map<uint32_t, Session> sessions;
+
+	auto targetReciveThread = std::thread([&target,&sessions]() mutable
+		{
+			auto packet = RecivePacket(target);
+		});
+	
+	while (!stop)
+	{
+		sockaddr addr;
+		int addrl = sizeof(sockaddr);
+		SOCKET user = accept(server, &addr, &addrl);
+		Session ns;
+		// Try request target to allocate new session
+
+		// obtain new session id
+
+		// start forwarding process
+	}
 }

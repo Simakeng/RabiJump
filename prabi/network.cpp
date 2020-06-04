@@ -1,7 +1,9 @@
 #include "network.h"
 #include "errors.h"
+#include "config.h"
 
 #include <exception>
+#include <future>
 
 void InitNetworkEnv()
 {
@@ -74,3 +76,5 @@ void ReciveData(SOCKET s, void* buffer, size_t size)
 	}
 	return;
 }
+
+
